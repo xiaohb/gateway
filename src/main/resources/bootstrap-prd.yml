@@ -5,23 +5,23 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 172.16.0.155:8848,172.16.0.156:8848,172.16.0.157:8848
-        namespace: 15fe4c74-bcae-4e89-a589-b048e1a99ccf
+        server-addr: 172.16.0.15:8848,172.16.0.16:8848,172.16.0.17:8848
+        namespace: 90fe4c74-bcae-4e89-a589-b048e1a99ccf
         metadata:
           host-mark: running-host
       config:
-        server-addr: 172.16.0.155:8848,172.16.0.156:8848,172.16.0.157:8848
+        server-addr: 172.16.0.15:8848,172.16.0.16:8848,172.16.0.17:8848
         prefix: ${spring.application.name}
-        namespace: 15fe4c74-bcae-4e89-a589-b048e1a99ccf
+        namespace: 90fe4c74-bcae-4e89-a589-b048e1a99ccf
         file-extension: yml
 
   #-------- datasource -------------------------------------------------------
   datasource:
     druid:
       # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-      url: jdbc:mysql://rm-bp19h64vf5549pm8z.mysql.rds.aliyuncs.com:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
-      username: prd_scf_gateway
-      password: Prd_6mBDfwxm8DSotg
+      url: jdbc:mysql://mysql_prd_ip:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+      username: prd_username
+      password: Prd_password
       driver-class-name:  com.mysql.cj.jdbc.Driver
       #连接池配置(通常来说，只需要修改initialSize、minIdle、maxActive
       initial-size: 10
@@ -90,8 +90,8 @@ spring:
     test-on-borrow: true
     test-while-idle: true
     sentinel:
-      master: redis_elk_001
-      nodes: 172.16.0.158:26379,172.16.0.159:26379,172.16.0.160:26379
+      master: redis_prd_001
+      nodes: 172.16.0.18:26379,172.16.0.19:26379,172.16.0.10:26379
     lettuce:
       pool:
         # 最大空闲连接
@@ -111,7 +111,7 @@ spring:
     host: 172.16.0.166
     port: 5672
     username: admin
-    password: developer!@#
+    password: password110
   zipkin:
     sender:
       type: rabbit
