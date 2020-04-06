@@ -8,23 +8,23 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.1.215:8848,192.168.1.217:8848,192.168.1.216:8848
-        namespace: 346a5fc1-c0af-47cf-8373-32c323ed88a4
+        server-addr: 192.168.1.15:8848,192.168.1.17:8848,192.168.1.16:8848
+        namespace: 616a5fc1-c0af-47cf-8373-32c323ed88a4
         metadata:
           host-mark: running-host
       config:
-        server-addr: 192.168.1.215:8848,192.168.1.217:8848,192.168.1.216:8848
+        server-addr: 192.168.1.15:8848,192.168.1.17:8848,192.168.1.16:8848
         prefix: ${spring.application.name}
-        namespace: 346a5fc1-c0af-47cf-8373-32c323ed88a4
+        namespace: 616a5fc1-c0af-47cf-8373-32c323ed88a4
         file-extension: yaml
 
   #--------------------------- db config ---------------------------------------------------------------------------
   datasource:
     druid:
       # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-      url: jdbc:mysql://192.168.1.6:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
-      username: superadmin
-      password: superadmin!@#
+      url: jdbc:mysql://mysql_test_ip:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+      username: user1
+      password: password1
       driver-class-name:  com.mysql.cj.jdbc.Driver
       #连接池配置(通常来说，只需要修改initialSize、minIdle、maxActive
       initial-size: 1
@@ -113,7 +113,7 @@ spring:
     host: 192.168.1.210
     port: 5672
     username: admin
-    password: developer!@#
+    password: developepassword
   zipkin:
     sender:
       type: rabbit
