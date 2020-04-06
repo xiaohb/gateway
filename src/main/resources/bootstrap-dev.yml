@@ -19,9 +19,9 @@ spring:
   datasource:
     druid:
       # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-      url: jdbc:mysql://192.168.1.11:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://mysql_test_ip:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
       username: admins
-      password: admin!@3PLT
+      password: adminpasswod
       driver-class-name:  com.mysql.cj.jdbc.Driver
       #连接池配置(通常来说，只需要修改initialSize、minIdle、maxActive
       initial-size: 1
@@ -88,8 +88,8 @@ spring:
     database: 0
     timeout: 5000 # 连接超时时间（毫秒）
     sentinel:
-      master: mysql-redis-master
-      nodes: 192.168.1.11:26379,192.168.1.12:26379,192.168.1.13:26379
+      master: redis-master
+      nodes: 192.168.1.102:26379,192.168.1.102:26379,192.168.1.103:26379
     lettuce:
       pool:
         # 最大空闲连接
@@ -106,10 +106,10 @@ spring:
     sampler:
       probability: 1.0
   rabbitmq:
-    host: 192.168.1.210
+    host: 192.168.1.12
     port: 5672
     username: admin
-    password: developer!@#
+    password: adminpassword
   zipkin:
     sender:
       type: rabbit
