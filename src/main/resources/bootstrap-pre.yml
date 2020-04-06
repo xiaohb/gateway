@@ -1,0 +1,175 @@
+spring:
+  #--------- nacos config -----
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.101.188:8848
+        namespace: bc8dcdf9-ce6f-45f5-8a8a-576d0e5c9420
+        metadata:
+          host-mark: running-host
+      config:
+        server-addr: 192.168.101.188:8848
+        prefix: ${spring.application.name}
+        namespace: bc8dcdf9-ce6f-45f5-8a8a-576d0e5c9420
+        file-extension: yml
+
+  #-------- datasource -------------------------------------------------------
+  datasource:
+    druid:
+      # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
+      url: jdbc:mysql://rm-bp16g21u6dfg7fw06.mysql.rds.aliyuncs.com:3306/scf_gateway?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+      username: pre_scf_gateway
+      password: Pre_6mBDJOm8DSoOw
+      driver-class-name:  com.mysql.cj.jdbc.Driver
+      #连接池配置(通常来说，只需要修改initialSize、minIdle、maxActive
+      initial-size: 2
+      max-active: 50
+      min-idle: 2
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      #打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 'x'
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      filters: stat,wall
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      #是否启用StatFilter默认值true
+      web-stat-filter.enabled: false
+      web-stat-filter.url-pattern:  /*
+      web-stat-filter.exclusions: "*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"
+      web-stat-filter.session-stat-max-count: 1000
+      web-stat-filter.profile-enable: true
+      # StatViewServlet配置
+      #展示Druid的统计信息,StatViewServlet的用途包括：1.提供监控信息展示的html页面2.提供监控信息的JSON API
+      #是否启用StatViewServlet默认值true
+      stat-view-servlet.enabled: false
+      #根据配置中的url-pattern来访问内置监控页面，如果是上面的配置，内置监控页面的首页是/druid/index.html例如：
+      #http://110.76.43.235:9000/druid/index.html
+      #http://110.76.43.235:8080/mini-web/druid/index.html
+      stat-view-servlet.url-pattern:  /druid/*
+      #允许清空统计数据
+      stat-view-servlet.reset-enable:  true
+      stat-view-servlet.login-username: admin
+      stat-view-servlet.login-password: admin
+      #StatViewSerlvet展示出来的监控信息比较敏感，是系统运行的内部情况，如果你需要做访问控制，可以配置allow和deny这两个参数
+      #deny优先于allow，如果在deny列表中，就算在allow列表中，也会被拒绝。如果allow没有配置或者为空，则允许所有访问
+      #配置的格式
+      #<IP>
+      #或者<IP>/<SUB_NET_MASK_size>其中128.242.127.1/24
+      #24表示，前面24位是子网掩码，比对的时候，前面24位相同就匹配,不支持IPV6。
+      #stat-view-servlet.allow=
+      #stat-view-servlet.deny=128.242.127.1/24,128.242.128.1
+      # Spring监控配置，说明请参考Druid Github Wiki，配置_Druid和Spring关联监控配置
+      #aop-patterns= # Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
+  ################### mysq end ##########################
+  redis:
+    ################### redis 单机版 start ##########################
+    #    host: 192.168.1.11
+    #    port: 6379
+    #    timeout: 9000
+    #    database: 3
+    #    lettuce:
+    #      pool:
+    #        max-active: 10 # 连接池最大连接数（使用负值表示没有限制）,如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)
+    #        max-idle: 8   # 连接池中的最大空闲连接 ，默认值也是8
+    #        max-wait: 100 # # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
+    #        min-idle: 2    # 连接池中的最小空闲连接 ，默认值也是0
+    #      shutdown-timeout: 100ms
+    ################### redis 单机版 end ##########################
+    database: 0
+    timeout: 5000 # 连接超时时间（毫秒）
+    test-on-borrow: true
+    test-while-idle: true
+    sentinel:
+      master: pre-redis01
+      nodes: 192.168.0.183:26379,192.168.0.186:26379,192.168.0.187:26379
+    lettuce:
+      pool:
+        # 最大空闲连接
+        max-idle: 8
+        # 最小空闲链接方
+        min-idle: 2
+        # 最大连接数（负数表示没有限制）
+        max-active: 10
+        # 最大阻塞等待时间（负数表示没有限制）
+        max-wait: -1
+      shutdown-timeout: 1000ms
+
+#-------- zipkin ---------------------
+  #zipkin-server地址
+  zipkin:
+    base-url: http://192.168.101.188:9411/
+    discovery-client-enabled: false
+  rabbitmq:
+    host: 192.168.0.189
+    port: 5672
+    username: admin
+    password: developer!@#
+  #接口默认全部采样
+  sleuth:
+    sampler:
+      probability: 1.0
+############### 认证忽略地址和限制 #######################################
+auth:
+  ignored: /scf/cms/s/cms/ex/getCmsGw,/scf/user-api/user/scf/api/forgotPassword,/scf/user-api/user/scf/api/sendCode,/scf/user-api/user/scf/api/hasUsername,/scf/user-api/user/scf/api/reg,/scf/user-api/user/scf/api/getCode,/favicon.ico,/scf/user-api/user/scf/api/login,/scf/user-api/user/scf/api/logout,/scf/user-admin/w/user/login,/scf/user-admin/w/user/logout,/**/favicon.ico, /baidu/**,/api-file/files-anon/**,/test163/** , /api-auth/** , /doc.html ,/test111 ,/api-user/users-anon/login,/user-center/users-anon/login,/document.html,**/v2/api-docs,/oauth/** ,/login.html ,/user/login,/**/**.css ,/**/**.js
+  clientId: gateway
+  accessLimitCountOfDay: 0 # 认证后每天访问限制数量(一个路径) 0：不限制
+  accessLimitCountOfHour: 0 # 认证后每小时访问限制数量(所有路径) 0：不限制
+
+#---- ribbon  config ----
+ribbon:
+  eureka:
+    enabled: false
+  #Ribbon允许最大连接数，即所有后端微服务实例请求并发数之和的最大值。
+  MaxTotalConnections: 500
+  #单个后端微服务实例能接收的最大请求并发数
+  MaxConnectionsPerHost: 500
+  ReadTimeout: 5000
+  ConnectTimeout: 6000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+
+
+#---- hystrix config ----
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maximumSize: 5000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+  command:
+    default:
+      circuitBreaker:
+        foreOpen: false
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+
+#------  feign config  ---------
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        loggerLevel: full  ## 配合logging.level=trace debug用于开发调式日志
+  compression:
+    request:
+      enabled: true
+      mine-types: text/xml,application/xml,application/json
+    response:
+      enabled: true

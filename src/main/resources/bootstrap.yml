@@ -1,0 +1,61 @@
+#端口
+server:
+  port: 9200
+#tomcat 临时目录
+  tomcat:
+    basedir: /data/tmp
+#服务名称
+spring:
+  profiles:
+    active: dev
+  application:
+    name: scf-gateway
+  main:
+    allow-bean-definition-overriding: true
+  #服务名小写
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+
+      default-filters:
+        - name: Hystrix
+          args:
+            name: default
+            fallbackUri: 'forward:/defaultfallback'
+
+    #nacos config
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+      #      shared-dataids: auth.yml,printlog.yml,gateway.yml
+      #      refreshable-dataids: auth.yml,gateway.yml
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 20000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: false
+
+

@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "ribbon.ReadTimeout",
+      "type": "java.lang.String",
+      "description": "Description for ribbon.ReadTimeout."
+    },
+    {
+      "name": "feign.compression.request.mine-types",
+      "type": "java.lang.String",
+      "description": "Description for feign.compression.request.mine-types."
+    }
+  ] }
